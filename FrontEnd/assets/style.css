@@ -22,6 +22,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+	text-decoration: none;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -180,6 +181,70 @@ li:hover {
 	width: 100%;
 
 }
+
+#login {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 50%;
+	margin: auto;
+}
+#login > * {
+	text-align: center;
+
+}
+#login h2{
+	margin-bottom: 20px;
+}
+#login form {
+	width: 379px;
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+	margin-left: 0px;
+}
+
+#login input {
+	height: 50px;
+	width: 379px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#login label {
+	width: 100%;
+	margin: 2em 0 1em 0;
+}
+
+#login input[type="submit"] {
+	width: 180px;
+}
+
+.forgottenPassword {
+	font-family: Work Sans;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 16px;
+	letter-spacing: 0em;
+	width: 100%;
+	text-decoration: underline;
+	color: #3D3D3D;
+	cursor: pointer;
+}
+
+.badCredentials {
+	font-family: Work Sans;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 16px;
+	letter-spacing: 0em;
+	width: 100%;
+	visibility: hidden;
+	color: #FF1010;
+	cursor: pointer;
+}
+
 #contact {
 	width: 50%;
 margin: auto;
