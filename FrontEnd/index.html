@@ -17,7 +17,7 @@
 	<nav>
 		<ul>
 			<li><a href="./index.html">projets</a></li>
-			<li>contact</li>
+			<li><a href="#modal">contact</a></li>
 			<li><a href="./login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
@@ -37,6 +37,9 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
+		<div id="editGallery">
+			<a href="#modal" id="modalOpener">modifier</a>
+		</div>
 		<div class="filters">
 		</div>
 		<div class="gallery">
@@ -56,7 +59,35 @@
 		</form>
 	</section>
 </main>
-
+<aside id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="photoGalleryTitle" style="display:none;">
+	<div class="modalWrapper">
+		<div class="modalNavigation">
+			<div id="back">--</div>
+			<div id="exit">X</div>
+		</div>
+		<section id="photoGallery">
+			<div class="modalTitle" id="photoGalleryTitle">
+			</div>
+			<div class="photoThumbsList">
+			</div>
+		</section>
+		<section id="addPhotoForm" style="display:none;">
+			<div class="modalTitle">
+			</div>
+			<form action="#" method="post">
+				<!-- Ici widget ajout photo -->
+				<label for="title">Titre</label>
+				<input type="text" name="title" id="title">
+				<label for="category">Catégorie</label>
+				<!-- Ici dropdown des catégories-->
+			</form>
+		</section>
+		<div class="horizontalSeparator">
+		</div>
+		<div class="actionButtonContainer">
+		</div>
+	</div>
+</aside>
 <footer>
 	<nav>
 		<ul>

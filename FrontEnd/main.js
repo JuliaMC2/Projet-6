@@ -35,10 +35,38 @@ if (categories === null){
     categories = JSON.parse(categories);
 }
 
+//Gestion de la modale
+const closeModal = function (e) {
+    if (modal !== null) {
+        e.preventDefault();
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        modal.setAttribute('aria-modal', 'false');
+        modal.removeEventListener('click', closeModal);
+        document.getElementById('exit').removeEventListener('click', closeModal);
+        modal = null;
+        }
+}
+
+const openModal = function (e) {
+    e.preventDefault();
+    const target = document.getElementById("modal");
+    target.style.display = null;
+    target.removeAttribute('aria-hidden');
+    target.setAttribute('aria-modal', 'true');
+    modal = target;
+    modal.addEventListener('click', closeModal);
+    document.getElementById('exit').addEventListener('click', closeModal);
+}
+
+document.getElementById("modalOpener").addEventListener('click', openModal);
+
 // affichages initiaux
-// affichage des projets
 createCategories();
+// affichage des projets
 createGallery(works);
+
+
 
 // affichage des filtres de catégories
 function createCategories() {
