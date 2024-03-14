@@ -240,9 +240,11 @@ li:hover {
 	line-height: 16px;
 	letter-spacing: 0em;
 	width: 100%;
+	text-align: center;
 	visibility: hidden;
 	color: #FF1010;
 	cursor: pointer;
+	margin-top: 20px;
 }
 
 #contact {

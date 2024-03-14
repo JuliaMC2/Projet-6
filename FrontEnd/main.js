@@ -1,3 +1,14 @@
+var loginOk = false;
+
+//Récupération du token de connexion s'il existe
+let token = window.localStorage.getItem('token');
+if (token !== null){
+    console.log ("connected with token : "+token);
+    loginOk = true;
+} else {
+    console.log("not connected");
+}
+
 //Récupération des travaux eventuellement stockés en local
 let works = window.localStorage.getItem('works');
 if (works === null){
