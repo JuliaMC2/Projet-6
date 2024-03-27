@@ -136,7 +136,7 @@ li:hover {
 	margin-bottom: 50px;
 }
 
-.categoryFilterButton{
+.greenButton{
 	display: flex;
 	font-family: 'Syne';
 	font-weight: 700;
@@ -159,14 +159,31 @@ li:hover {
 	cursor: pointer;
 }
 
-.categoryFilterButton:hover {
+.greenButton:hover {
 	color: white;
 	background-color: #1D6154;
 }
 
-.categoryFilterButton:active {
+.greenButton:active {
 	background-color: white;
 	color: #1D6154;
+}
+
+.myWorksContainer {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+}
+
+.myWorksFiller {
+	width: calc(50% - 126px);
+	margin-left: 30px;
+	margin-top: 9px;
+	vertical-align: middle;
+}
+
+.myWorksSizeAdjustor {
+	width: 196px;
 }
 
 .gallery {
@@ -264,16 +281,96 @@ li:hover {
 	width: 630px;
 	height: 688px;
 	border-radius: 10px;
-
 }
+
+.modalNavigation {
+	display: flex;
+	justify-content: space-between;
+}
+
+.modalNavigationBarElement {
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	font-size: 20px;
+}
+
+.modalTitle {
+	width: 100%;
+	font-family: Work Sans;
+	font-size: 26px;
+	font-weight: 400;
+	line-height: 30.5px;
+	text-align: center;
+	margin-bottom: 30px;
+}
+#photoGallery {
+	margin-top: 15px;
+}
+
 
 .photoThumbsList {
+	width: 450px;
 	overflow: auto;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 15px;
+	grid-row-gap: 20px;
+	margin-left: calc(50% - 225px);
+	margin-left: calc(50% - 225px);
 }
 
+.trashHandler {
+	width: 16px;
+	height: 17px;
+	border-radius: 2px;
+	padding-left: 4px;
+	padding-top: 3px;
+	position: relative;
+	color: white;
+	background-color: black;
+	bottom: 100px;
+	right: -52px;
+	cursor: pointer;
+}
+
+.photoThumbsList img {
+	width: 100%;
+}
+
+.horizontalSeparator {
+	width: 420px;
+	height: 1px;
+	background-color: #B3B3B3;
+	margin-top: 30px;
+	margin-bottom: 25px;
+	margin-left: calc(50% - 210px);
+	margin-left: calc(50% - 210px);
+}
 .modalNavigation div{
 	cursor: pointer;
 }
+
+.greenerButton{
+	margin-left: calc(50% - 119px);
+	margin-left: calc(50% - 119px);
+	width: 237px;
+	background-color: #1D6154;
+	color: white;
+}
+
+.greenerButton:hover {
+	color: #1D6154;
+	background-color: white;
+}
+
+.inactiveGreenerButton:disabled {
+	background-color: #B3B3B3;
+	border-color: #B3B3B3;
+	color: white;
+}
+
+
 
 #contact {
 	width: 50%;

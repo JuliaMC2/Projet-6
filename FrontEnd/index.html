@@ -7,6 +7,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/5fcbfd7080.js" crossorigin="anonymous"></script>
 	<script type="module" src="main.js" defer></script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
@@ -36,9 +37,12 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<div id="editGallery">
-			<a href="#modal" id="modalOpener">modifier</a>
+		<div class="myWorksContainer">
+			<div class="myWorksFiller"></div>
+			<h2 class="myWorksSizeAdjustor">Mes Projets</h2>
+			<div id="editGallery" class="myWorksFiller">
+				<a href="#modal" id="modalOpener"><span class="fa-regular fa-pen-to-square"></span><span>modifier</span></a>
+			</div>
 		</div>
 		<div class="filters">
 		</div>
@@ -62,17 +66,19 @@
 <aside id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="photoGalleryTitle" style="display:none;">
 	<div class="modalWrapper">
 		<div class="modalNavigation">
-			<div id="back">--</div>
-			<div id="exit">X</div>
+			<div id="back" class="fa-solid fa-arrow-left modalNavigationBarElement" style="visibility:hidden;"></div>
+			<div id="exit" class="fa-solid fa-xmark modalNavigationBarElement"></div>
 		</div>
 		<section id="photoGallery">
-			<div class="modalTitle" id="photoGalleryTitle">
+			<div class="modalTitle">
+				Galerie photo
 			</div>
 			<div class="photoThumbsList">
 			</div>
 		</section>
 		<section id="addPhotoForm" style="display:none;">
 			<div class="modalTitle">
+				Ajout photo
 			</div>
 			<form action="#" method="post">
 				<!-- Ici widget ajout photo -->
@@ -84,7 +90,13 @@
 		</section>
 		<div class="horizontalSeparator">
 		</div>
-		<div class="actionButtonContainer">
+		<div class="modalActionButtonContainer">
+			<div class="greenButton greenerButton" id="addPhotoButton">
+				Ajouter une photo
+			</div>
+			<div class="greenButton greenerButton" id="ValidateButton" style="display:none;">
+				Valider
+			</div>
 		</div>
 	</div>
 </aside>
