@@ -80,12 +80,17 @@
 			<div class="modalTitle">
 				Ajout photo
 			</div>
-			<form action="#" method="post">
-				<!-- Ici widget ajout photo -->
-				<label for="title">Titre</label>
-				<input type="text" name="title" id="title">
-				<label for="category">Catégorie</label>
-				<!-- Ici dropdown des catégories-->
+			<form class="FormAddPhoto" action="#" method="post">
+				<div class="blueRectangle">
+					<span class="fa-regular fa-image imageGreyTones"></span>
+					<img src="" alt="" style="display:none;">
+					<div class="addPhotoFormButton" id="addPhotoFormButton">+Ajouter photo</div>
+					<span class="tinyWriting">jpg, png : 4mo max</span>
+				</div>
+				<label for="title" class="addPhotoFormLabel">Titre</label>
+				<input type="text" name="title" id="title" class="addPhotoFormInput">
+				<label for="category" class="addPhotoFormLabel">Catégorie</label>
+				<select name="category" id="category" data-id="" class="categoriesSelect addPhotoFormInput"></select>
 			</form>
 		</section>
 		<div class="horizontalSeparator">

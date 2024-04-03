@@ -55,7 +55,7 @@ let modal = null;
 const FromGalleryToAddPhoto = function(e) {
     e.preventDefault();
     e.stopPropagation();
-    document.getElementById('addPhotoForm').style.display = null;
+    document.getElementById('addPhotoForm').style.display = 'flex';
     document.getElementById('back').style.visibility = null;
     document.getElementById('photoGallery').style.display = 'none';
 }
@@ -104,6 +104,28 @@ function displayThumbs() {
     }
 }
 
+let selectCategory = document.getElementById('category');
+function createCategoriesSelectOptions() {
+    selectCategory.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    
+    if (selectCategory.options.length === 0) {
+        const emptyOption = document.createElement("option");
+        emptyOption.value = "";
+        emptyOption.textContent = "";
+        selectCategory.appendChild(emptyOption);
+    
+        categories.forEach((category) => {
+          const option = document.createElement("option");
+          option.textContent = category.name;
+          option.setAttribute("data-id", category.id);
+          selectCategory.appendChild(option);
+        });
+      }
+    }
+
 async function deleteProject(idProject) {
 
     const rawResponse = await fetch('http://localhost:5678/api/works/'+idProject, {
@@ -116,9 +138,10 @@ async function deleteProject(idProject) {
     });
 
     //attente de la réponse
-    console.log(rawResponse.status);
     if (rawResponse.status === 204 ) {
-        deleteLocalProject(idProject);
+        let works_updated = works.filter(work => work.id !== idProject)
+        window.localStorage.setItem('works', JSON.stringify(works_updated));
+        works=works_updated;
         createGallery(works);
         displayThumbs();
     }
@@ -126,18 +149,6 @@ async function deleteProject(idProject) {
         loginOk = false;
         toggleDisplays();
     }
-}
-
-function deleteLocalProject (idProject) {
-    var tempWorks = new Array(works.length-1);
-    var offset=0;
-    for (var i=0; i<works.length; i++)
-        if (works[i].id !== idProject) {
-            tempWorks[i+offset] = works[i];
-        } else {
-            offset = -1;
-        }
-    works=tempWorks;
 }
 
 const closeModal = function (e) {
@@ -171,11 +182,19 @@ const openModal = function (e) {
 
 document.getElementById("modalOpener").addEventListener('click', openModal);
 
+const handleTextInput = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
+document.getElementById("title").addEventListener('click', handleTextInput);
+
+
 // affichage des projets
 createGallery(works);
 //afichage des catégories
 if (!loginOk)
     createCategories();
+createCategoriesSelectOptions();
 
 // affichage des filtres de catégories
 function createCategories() {
