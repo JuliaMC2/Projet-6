@@ -1,8 +1,7 @@
 
-document.getElementById('loginButton').addEventListener("click", function() {tryToLogin()});
-const badCredentials = document.querySelector('.badCredentials');
 
-async function tryToLogin() {
+const badCredentials = document.querySelector('.badCredentials');
+const tryToLogin = async function (e) {
     //récupération des champs e-mail et mot de passe
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -10,7 +9,8 @@ async function tryToLogin() {
     var content;
 
     badCredentials.style.visibility = 'hidden';
-    event.preventDefault();
+    e.preventDefault();
+
     if (email !== null) {
     //envoi du fetch
     const rawResponse = await fetch('http://localhost:5678/api/users/login', {
@@ -43,3 +43,6 @@ async function tryToLogin() {
     badCredentials.style.visibility = 'visible';
     }
 }
+
+document.getElementById('loginButton').addEventListener('click', tryToLogin);
+

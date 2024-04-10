@@ -13,10 +13,7 @@ if (token !== null){
 let works = window.localStorage.getItem('works');
 if (works === null){
     //Récupération et stockage des travaux par appel API
-    const reponse = await fetch('http://localhost:5678/api/works');
-    works = await reponse.json();
-    const stringWorks = JSON.stringify(works);
-    window.localStorage.setItem("works", stringWorks);
+    writeLocalWorks();
 } else {
     //Transformation de la chaîne en structure json
     works = JSON.parse(works);
@@ -58,6 +55,10 @@ const FromGalleryToAddPhoto = function(e) {
     document.getElementById('addPhotoForm').style.display = 'flex';
     document.getElementById('back').style.visibility = null;
     document.getElementById('photoGallery').style.display = 'none';
+
+    document.getElementById('addPhotoButton').style.display = 'none';
+    document.getElementById('validateButton').style.display = null;
+
 }
 
 const FromAddPhotoToGallery = function(e) {
@@ -66,6 +67,9 @@ const FromAddPhotoToGallery = function(e) {
     document.getElementById('addPhotoForm').style.display = 'none';
     document.getElementById('back').style.visibility = 'hidden';
     document.getElementById('photoGallery').style.display = null;
+    killThumb();
+    document.getElementById('addPhotoButton').style.display = null;
+    document.getElementById('validateButton').style.display = 'none';
 }
 
 function displayThumbs() {
@@ -120,7 +124,7 @@ function createCategoriesSelectOptions() {
         categories.forEach((category) => {
           const option = document.createElement("option");
           option.textContent = category.name;
-          option.setAttribute("data-id", category.id);
+          option.setAttribute("value", category.id);
           selectCategory.appendChild(option);
         });
       }
@@ -160,6 +164,10 @@ const closeModal = function (e) {
         modal.setAttribute('aria-modal', 'false');
         modal.removeEventListener('click', closeModal);
         document.getElementById('exit').removeEventListener('click', closeModal);
+        document.getElementById("title").removeEventListener('click', handleTextInput);
+        document.getElementById('addPhotoFormButton').removeEventListener('click', openFileUploadDialog);
+        document.getElementById('hiddenFileInput').removeEventListener('change', handleFileUpload);
+
         modal = null;
         createCategories();
     }
@@ -175,9 +183,17 @@ const openModal = function (e) {
     target.setAttribute('aria-modal', 'true');
     modal = target;
     modal.addEventListener('click', closeModal);
+    document.getElementsByClassName('modalWrapper')[0].addEventListener('click', handleTextInput);
     document.getElementById('exit').addEventListener('click', closeModal);
     document.getElementById('addPhotoButton').addEventListener('click', FromGalleryToAddPhoto);
     document.getElementById('back').addEventListener('click', FromAddPhotoToGallery);
+    document.getElementById("title").addEventListener('click', handleTextInput);
+    document.getElementById('addPhotoFormButton').addEventListener('click', openFileUploadDialog);
+    document.getElementById('hiddenFileInput').addEventListener('change', handleFileUpload);
+    document.getElementById('validateButton').setAttribute('disabled', true);
+    document.getElementById('validateButton').addEventListener('click', uploadNewWork);
+    document.getElementById("title").addEventListener('change', validateFields);
+    document.getElementById('category').addEventListener('change', validateFields);
 }
 
 document.getElementById("modalOpener").addEventListener('click', openModal);
@@ -186,8 +202,110 @@ const handleTextInput = function(e) {
     e.preventDefault();
     e.stopPropagation();
 }
-document.getElementById("title").addEventListener('click', handleTextInput);
 
+const openFileUploadDialog = async function(e) {
+    var input = document.getElementById('hiddenFileInput');
+    input.click();
+}
+
+var isImageInitialized = false;
+const killThumb = function(e) {
+
+    document.getElementById('newThumb').style.display = 'none';
+    document.getElementById('newThumb').src='';
+
+    document.getElementById('photoPictogram').style.display = null;
+    document.getElementById('addPhotoFormButton').style.display = null;
+    document.getElementById('fileExpetations').style.display = null;
+    isImageInitialized = false;
+}
+
+const displayNewThumb = async function(e) {
+    var data = e.target.result;
+    document.getElementById('newThumb').style.display = null;
+    document.getElementById('newThumb').src=data;
+
+    document.getElementById('photoPictogram').style.display = 'none';
+    document.getElementById('addPhotoFormButton').style.display = 'none';
+    document.getElementById('fileExpetations').style.display = 'none';
+    isImageInitialized = true;
+    validateFields(e);
+ }
+
+const handleFileUpload = async function(e)  {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    console.log(file.name + ' : ' + file.type +' (' + (file.size / 1024) + ' kb)');
+    if (file.size < 4*1024*1024) // taille inférieure à 4 MO (le type est forcément bon à cause du accept dans le html)
+        {
+            reader.onload = displayNewThumb;
+            reader.readAsDataURL(file);
+        }
+}
+
+const validateFields = function (e) {
+    e.stopPropagation();
+    const newWorkTitle = document.getElementById('title');
+    const newWorkCateg = document.getElementById('category');
+    const btnValidate  = document.getElementById('validateButton');
+
+    console.log(isImageInitialized + "/" + newWorkTitle.value.length + "/" + newWorkCateg.value.length );
+
+    if (isImageInitialized && newWorkTitle.value.length > 0 && newWorkCateg.value.length > 0) {
+        btnValidate.removeAttribute('disabled');
+        btnValidate.style.cursor = 'pointer';
+        document.getElementById('missingFields').style.visibility = 'hidden';
+    } else {
+        btnValidate.setAttribute('disabled', true);
+        btnValidate.style.cursor = 'default';
+        document.getElementById('missingFields').style.visibility = null;
+        document.getElementById('missingFields').innerHTML = 'Tous les champs sont obligatoires.'
+    }
+
+}
+
+async function writeLocalWorks() {
+    const reponse = await fetch('http://localhost:5678/api/works');
+    works = await reponse.json();
+    const stringWorks = JSON.stringify(works);
+    window.localStorage.setItem("works", stringWorks);
+}
+
+const uploadNewWork = async function (e) {
+    const newWorkImage = document.getElementById('hiddenFileInput');
+    const newWorkTitle = document.getElementById('title');
+    const newWorkCateg = document.getElementById('category');
+    const uploadedWork = new FormData();
+
+    uploadedWork.append('title', newWorkTitle.value);
+    uploadedWork.append('category', newWorkCateg.value);
+    uploadedWork.append('image', newWorkImage.files[0]);
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const rawResponse = await fetch('http://localhost:5678/api/works', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer '+token
+            },
+            body: uploadedWork
+        });
+    
+        //attente de la réponse
+    console.log(rawResponse.status);
+    if (rawResponse.status < 400 ) {
+        console.log('Tout s\'est bien passé.');
+
+        await writeLocalWorks();
+        createGallery(works);
+        displayThumbs();
+    } else {
+        console.log(rawResponse);
+        document.getElementById('missingFields').innerHTML = 'Une erreur a eu lieu pendant la création du projet.';
+        document.getElementById('missingFields').style.visibility = null;
+    }
+}
 
 // affichage des projets
 createGallery(works);

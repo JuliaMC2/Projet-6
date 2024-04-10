@@ -62,6 +62,8 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
+	<input id="hiddenFileInput" name="hiddenFileInput" type="file" accept="image/png, image/jpeg" style="display:none;"">
+
 </main>
 <aside id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="photoGalleryTitle" style="display:none;">
 	<div class="modalWrapper">
@@ -82,16 +84,17 @@
 			</div>
 			<form class="FormAddPhoto" action="#" method="post">
 				<div class="blueRectangle">
-					<span class="fa-regular fa-image imageGreyTones"></span>
-					<img src="" alt="" style="display:none;">
-					<div class="addPhotoFormButton" id="addPhotoFormButton">+Ajouter photo</div>
-					<span class="tinyWriting">jpg, png : 4mo max</span>
+					<span class="fa-regular fa-image imageGreyTones" id="photoPictogram"></span>
+					<img id="newThumb" src="" alt="" style="display:none;">
+					<label for="hiddenFileInput"><div class="addPhotoFormButton" id="addPhotoFormButton">+Ajouter photo</div></label>
+					<span class="tinyWriting" id="fileExpetations">jpg, png : 4mo max</span>
 				</div>
 				<label for="title" class="addPhotoFormLabel">Titre</label>
 				<input type="text" name="title" id="title" class="addPhotoFormInput">
 				<label for="category" class="addPhotoFormLabel">Catégorie</label>
-				<select name="category" id="category" data-id="" class="categoriesSelect addPhotoFormInput"></select>
+				<select name="category" id="category" value="" class="categoriesSelect addPhotoFormInput"></select>
 			</form>
+			<div class="tinyWriting" id="missingFields">Tous les champs sont obligatoires.</div>
 		</section>
 		<div class="horizontalSeparator">
 		</div>
@@ -99,7 +102,7 @@
 			<div class="greenButton greenerButton" id="addPhotoButton">
 				Ajouter une photo
 			</div>
-			<div class="greenButton greenerButton" id="ValidateButton" style="display:none;">
+			<div class="greenButton greenerButton inactiveGreenerButton" id="validateButton" style="display:none;">
 				Valider
 			</div>
 		</div>
