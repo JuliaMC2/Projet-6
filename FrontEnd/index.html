@@ -8,18 +8,20 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/5fcbfd7080.js" crossorigin="anonymous"></script>
-	<script type="module" src="main.js" defer></script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
+	<div class="editModeBlackStrip noDisplay" id="editModeBlackStrip">
+		<i class="fa-solid fa-pen-to-square"></i> Mode Edition
+	</div>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<li><a href="./index.html">projets</a></li>
 			<li><a href="#modal">contact</a></li>
-			<li><a href="./login.html">login</a></li>
+			<li><a href="./login.html" id="loginLogout">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -62,13 +64,13 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
-	<input id="hiddenFileInput" name="hiddenFileInput" type="file" accept="image/png, image/jpeg" style="display:none;"">
+	<input id="hiddenFileInput" name="hiddenFileInput" class="noDisplay" type="file" accept="image/png, image/jpeg">
 
 </main>
-<aside id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="photoGalleryTitle" style="display:none;">
+<aside id="modal" class="modal noDisplay">
 	<div class="modalWrapper">
 		<div class="modalNavigation">
-			<div id="back" class="fa-solid fa-arrow-left modalNavigationBarElement" style="visibility:hidden;"></div>
+			<div id="back" class="fa-solid fa-arrow-left modalNavigationBarElement hideMe"></div>
 			<div id="exit" class="fa-solid fa-xmark modalNavigationBarElement"></div>
 		</div>
 		<section id="photoGallery">
@@ -78,21 +80,21 @@
 			<div class="photoThumbsList">
 			</div>
 		</section>
-		<section id="addPhotoForm" style="display:none;">
+		<section id="addPhotoForm" class="noDisplay">
 			<div class="modalTitle">
 				Ajout photo
 			</div>
 			<form class="FormAddPhoto" action="#" method="post">
 				<div class="blueRectangle">
 					<span class="fa-regular fa-image imageGreyTones" id="photoPictogram"></span>
-					<img id="newThumb" src="" alt="" style="display:none;">
-					<label for="hiddenFileInput"><div class="addPhotoFormButton" id="addPhotoFormButton">+Ajouter photo</div></label>
+					<img id="newThumb" src="#" alt="" class="noDisplay">
+					<label for="hiddenFileInput"><span class="addPhotoFormButton" id="addPhotoFormButton">+Ajouter photo</span></label>
 					<span class="tinyWriting" id="fileExpetations">jpg, png : 4mo max</span>
 				</div>
 				<label for="title" class="addPhotoFormLabel">Titre</label>
 				<input type="text" name="title" id="title" class="addPhotoFormInput">
 				<label for="category" class="addPhotoFormLabel">Catégorie</label>
-				<select name="category" id="category" value="" class="categoriesSelect addPhotoFormInput"></select>
+				<select name="category" id="category" class="categoriesSelect addPhotoFormInput"></select>
 			</form>
 			<div class="tinyWriting" id="missingFields">Tous les champs sont obligatoires.</div>
 		</section>
@@ -102,7 +104,7 @@
 			<div class="greenButton greenerButton" id="addPhotoButton">
 				Ajouter une photo
 			</div>
-			<div class="greenButton greenerButton inactiveGreenerButton" id="validateButton" style="display:none;">
+			<div class="greenButton greenerButton noDisplay" id="validateButton">
 				Valider
 			</div>
 		</div>
@@ -115,5 +117,6 @@
 		</ul>
 	</nav>
 </footer>
+<script type="module" src="main.js"></script>
 </body>
 </html>

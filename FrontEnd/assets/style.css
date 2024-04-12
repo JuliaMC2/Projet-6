@@ -99,6 +99,18 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
+.editModeBlackStrip {
+	height: 59px;
+	width: 100%;
+	background-color: black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	gap: 5px;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -337,8 +349,10 @@ li:hover {
 	color: white;
 	background-color: black;
 	bottom: 100px;
-	right: -52px;
+	right: -45px;
 	cursor: pointer;
+	margin-top: 8px;
+
 }
 
 .photoThumbsList img {
@@ -465,7 +479,13 @@ li:hover {
 	color: white;
 }
 
+.hideMe {
+	visibility: hidden;
+}
 
+.noDisplay {
+	display: none;
+}
 
 #contact {
 	width: 50%;

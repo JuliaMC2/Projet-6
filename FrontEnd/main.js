@@ -32,18 +32,39 @@ if (categories === null){
     categories = JSON.parse(categories);
 }
 
+// fonction de logout
+const logout = function(e) {
+    loginOk = false;
+    localStorage.setItem('token', null);
+    e.stopPropagation();
+    e.preventDefault();
+    toggleDisplays();
+}
+
 // masquage du bouton modifier si on n'est pas connecté
 let editGalleryButton = document.getElementById('editGallery');
 let filtersSection = document.querySelector('.filters');
+let editModeBlackStrip = document.getElementById('editModeBlackStrip');
+let loginLogoutButton = document.getElementById('loginLogout');
 toggleDisplays();
 
 function toggleDisplays() {
     if (loginOk) {
-        editGalleryButton.style.display = null;
+        editGalleryButton.classList = 'myWorksFiller';
         filtersSection.style.display ='none';
+        editModeBlackStrip.classList='editModeBlackStrip';
+        loginLogoutButton.innerHTML='logout';
+        loginLogoutButton.setAttribute('href','#');
+        loginLogoutButton.addEventListener('click', logout);
+
     } else {
-        editGalleryButton.style.display = 'none';
+        editGalleryButton.classList = 'myWorksFiller noDisplay';
         filtersSection.style.display ='flex';
+        editModeBlackStrip.classList='editModeBlackStrip noDisplay';
+        loginLogoutButton.innerHTML='login';
+        loginLogoutButton.setAttribute('href','./login.html');
+        loginLogoutButton.removeEventListener('click', logout);
+        createCategories();
     }
 }
 //Gestion de la modale
@@ -52,24 +73,24 @@ let modal = null;
 const FromGalleryToAddPhoto = function(e) {
     e.preventDefault();
     e.stopPropagation();
-    document.getElementById('addPhotoForm').style.display = 'flex';
-    document.getElementById('back').style.visibility = null;
+    document.getElementById('addPhotoForm').classList = null;
+    document.getElementById('back').classList = 'fa-solid fa-arrow-left modalNavigationBarElement';
     document.getElementById('photoGallery').style.display = 'none';
 
     document.getElementById('addPhotoButton').style.display = 'none';
-    document.getElementById('validateButton').style.display = null;
+    document.getElementById('validateButton').classList = 'greenButton greenerButton';
 
 }
 
 const FromAddPhotoToGallery = function(e) {
     e.preventDefault();
     e.stopPropagation();
-    document.getElementById('addPhotoForm').style.display = 'none';
-    document.getElementById('back').style.visibility = 'hidden';
+    document.getElementById('addPhotoForm').classList = 'noDisplay';
+    document.getElementById('back').classList = 'fa-solid fa-arrow-left modalNavigationBarElement hideMe';
     document.getElementById('photoGallery').style.display = null;
     killThumb();
     document.getElementById('addPhotoButton').style.display = null;
-    document.getElementById('validateButton').style.display = 'none';
+    document.getElementById('validateButton').classList = 'greenButton greenerButton noDisplay';
 }
 
 function displayThumbs() {
@@ -159,9 +180,7 @@ const closeModal = function (e) {
     if (modal !== null) {
         e.preventDefault();
         e.stopPropagation();
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-        modal.setAttribute('aria-modal', 'false');
+        modal.classList = 'modal noDisplay';
         modal.removeEventListener('click', closeModal);
         document.getElementById('exit').removeEventListener('click', closeModal);
         document.getElementById("title").removeEventListener('click', handleTextInput);
@@ -178,9 +197,7 @@ const openModal = function (e) {
     e.stopPropagation();
     displayThumbs();
     const target = document.getElementById("modal");
-    target.style.display = null;
-    target.removeAttribute('aria-hidden');
-    target.setAttribute('aria-modal', 'true');
+    target.classList = 'modal';
     modal = target;
     modal.addEventListener('click', closeModal);
     document.getElementsByClassName('modalWrapper')[0].addEventListener('click', handleTextInput);
@@ -276,6 +293,24 @@ const uploadNewWork = async function (e) {
     const newWorkTitle = document.getElementById('title');
     const newWorkCateg = document.getElementById('category');
     const uploadedWork = new FormData();
+
+    if (newWorkTitle.value.length === 0) {
+        document.getElementById('missingFields').innerHTML = 'Le titre est obligatoire.';
+        document.getElementById('missingFields').style.visibility = null;
+        return;
+    }
+
+    if (newWorkCateg.value.length === 0) {
+        document.getElementById('missingFields').innerHTML = 'La catégorie est obligatoire.';
+        document.getElementById('missingFields').style.visibility = null;
+        return;
+    }
+
+    if (newWorkImage.files[0].size > 4 * 1024 * 1024) {
+        document.getElementById('missingFields').innerHTML = 'Fichier trop volumineux.';
+        document.getElementById('missingFields').style.visibility = null;
+        return;
+    }
 
     uploadedWork.append('title', newWorkTitle.value);
     uploadedWork.append('category', newWorkCateg.value);
