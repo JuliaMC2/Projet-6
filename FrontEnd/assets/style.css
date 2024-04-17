@@ -412,7 +412,8 @@ li:hover {
 	color: #306685;
 	background-color: #CBD6DC;
 	text-align: center;
-	padding-top: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	border-top: 10px;
 	cursor: pointer;
 }

@@ -228,7 +228,7 @@ const openFileUploadDialog = async function(e) {
 var isImageInitialized = false;
 const killThumb = function(e) {
 
-    document.getElementById('newThumb').style.display = 'none';
+    document.getElementById('newThumb').classList = 'noDisplay';
     document.getElementById('newThumb').src='';
 
     document.getElementById('photoPictogram').style.display = null;
@@ -239,7 +239,7 @@ const killThumb = function(e) {
 
 const displayNewThumb = async function(e) {
     var data = e.target.result;
-    document.getElementById('newThumb').style.display = null;
+    document.getElementById('newThumb').classList = null;
     document.getElementById('newThumb').src=data;
 
     document.getElementById('photoPictogram').style.display = 'none';
